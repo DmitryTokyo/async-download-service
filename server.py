@@ -1,6 +1,5 @@
 from aiohttp import web
 from pathlib import Path, PurePath
-import shlex
 import asyncio
 import aiofiles
 import logging
@@ -44,7 +43,6 @@ async def archivate(request):
     
     return response
         
-
 
 async def handle_index_page(request):
     async with aiofiles.open('index.html', mode='r') as index_file:
