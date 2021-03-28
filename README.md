@@ -1,12 +1,10 @@
-# Микросервис для скачивания файлов
+# Microservice for files downloading
 
-Микросервис помогает работе основного сайта, сделанного на CMS и обслуживает
-запросы на скачивание архивов с файлами. Микросервис не умеет ничего, кроме упаковки файлов
-в архив. Закачиваются файлы на сервер через FTP или админку CMS.
+The microservice processes requests for downloading archives with files. It helps a main website that based on CMS. Files can be downloaded via FTP or through the CMS admin panel.
 
-Создание архива происходит на лету по запросу от пользователя. Архив не сохраняется на диске, вместо этого по мере упаковки он сразу отправляется пользователю на скачивание.
+The archive makes on users demand without saving on server and directly stream to user computer for downloading.
 
-От неавторизованного доступа архив защищен хешом в адресе ссылки на скачивание, например: `http://host.ru/archive/3bea29ccabbbf64bdebcc055319c5745/`. Хеш задается названием каталога с файлами, выглядит структура каталога так:
+From unauthorized access the archive is protected by hash in the downloading url. For example: `http://host.ru/archive/3bea29ccabbbf64bdebcc055319c5745/`. Hash set up by files directory name. The directory looks something like this:
 
 ```
 - photos
@@ -19,36 +17,51 @@
       - 2.jpg
 ```
 
+## Installation
 
-## Как установить
-
-Для работы микросервиса нужен Python версии не ниже 3.6.
+For correct microservice work needs Python not less 3.6 version.
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Как запустить
+## Usage
 
 ```bash
-python server.py
+python3 server.py arguments
 ```
 
-Сервер запустится на порту 8080, чтобы проверить его работу перейдите в браузере на страницу [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
+The service support following arguments:
 
-## Как развернуть на сервере
+- `-l`, `--log` - logging enabled (INFO level).
+- `-d sec`, `--delay sec` - delay response time. Sec can be float number from 0 to 5.
+- `-p`, `--path` - path to files main directory.
+
+For example:
 
 ```bash
-python server.py
+python3 server -l --delay 1 --path photos
 ```
 
-После этого перенаправить на микросервис запросы, начинающиеся с `/archive/`. Например:
+Server launches on 8080 port and for checking service follow this link [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
+
+## How to deploy on a server
+
+```bash
+python3 server.py
+```
+
+After this redirect requests to this microservice, which beginning with `/archive/`. For example:
 
 ```
 GET http://host.ru/archive/3bea29ccabbbf64bdebcc055319c5745/
 GET http://host.ru/archive/af1ad8c76fda2e48ea9aed2937e972ea/
 ```
 
-# Цели проекта
+## License
 
-Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте [Devman](https://dvmn.org).
+You can copy, distribute and modify the software.
+
+## Motivation
+
+This project was created as part of online course for web developer [Devman](https://dvmn.org).
